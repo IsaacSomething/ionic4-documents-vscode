@@ -1,0 +1,17 @@
+body.vscode-light {
+  color: black;
+}
+
+body.vscode-dark {
+  color: white;
+}
+
+body.vscode-high-contrast {
+  color: red;
+}
+
+/* 
+https://code.visualstudio.com/api/references/theme-color
+  Webviews can also access VS Code theme colors using CSS variables. These variable names are prefixed with vscode
+  and replace the . with -. For example editor.foreground becomes var(--vscode-editor-foreground):
+ */

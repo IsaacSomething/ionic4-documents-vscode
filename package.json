@@ -1,0 +1,64 @@
+{
+  "name": "ionic-docs",
+  "displayName": "Ionic Docs",
+  "description": "Documentation for ionic",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.36.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^10.12.21",
+    "@types/vscode": "^1.36.0",
+    "glob": "^7.1.4",
+    "mocha": "^6.1.4",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.1",
+    "vscode-test": "^1.0.0-next.0"
+  },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:extension.openDoc",
+    "onCommand:extension.openDocExternal"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.openDoc",
+        "title": "Ionic Documentation"
+      },
+      {
+        "command": "extension.openDocAlt",
+        "title": "Ionic Documentation"
+      },
+      {
+        "command": "extension.openDocExternal",
+        "title": "Ionic Documentation: External"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "extension.openDoc"
+        },
+        {
+          "command": "extension.openDocExternal"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
