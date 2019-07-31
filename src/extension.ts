@@ -1,7 +1,9 @@
 import * as vscode from 'vscode';
 import { CodeElementList } from './code-element-list';
 import { Keys } from './keys';
-import { IonicDocumentation } from './documentation-lists/ionic';
+import { IonicDocumentation, ElementProps } from './documentation-lists/ionic';
+const fetch = require('node-fetch');
+const atob = require('atob');
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -20,13 +22,23 @@ export function activate(context: vscode.ExtensionContext) {
         const documentationPanel = vscode.window.createWebviewPanel('html', `Ionic Documentation: ${highlightedText}`,
           vscode.ViewColumn.Beside, { enableScripts: true });
 
-        /* documentationPanel.webview.postMessage({ content: data }); */
         documentationPanel.webview.html = getWebviewContent();
 
-      } else {
+        fetch(`https://api.github.com/repos/ionic-team/ionic/readme/${foundElement.path}?client_id=${Keys.clientId}&client_secret=${Keys.clientSecret}`)
+          .then((resp: any) => resp.json())
+          .then(function (data: any) {
 
+            const content = atob(data.content);
+            // Post content as message to HTML
+            documentationPanel.webview.postMessage({ content: content });
+
+          }).catch((error: any) => {
+            showError(`Api issue`);
+          });
+
+      } else {
         // Show error if highlighted test is not found
-        showError(highlightedText);
+        showError(`Ionic Documentation Error: Code element ${highlightedText} does not exist`);
       }
     }
   });
@@ -40,8 +52,8 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function checkCodeElement(highlightedText: string) {
-  return CodeElementList.CodeElements.find((codeElement: string) => {
-    return codeElement === highlightedText;
+  return IonicDocumentation.ElementProperties.find((element) => {
+    return element.element === highlightedText ? element : null;
   });
 }
 
@@ -64,15 +76,16 @@ function getWebviewContent() {
               <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
               <script type="text/javascript">
-                fetch('https://api.github.com/repos/ionic-team/ionic/readme/core/src/components/menu?client_id=Iv1.088b31b4976113a7&client_secret=e5857b2d7ef31d35343696d6ad62e63c395edeeb')
-                  .then((resp) => resp.json())
-                  .then(function (data) {
-                    document.getElementById('content').innerHTML = marked(window.atob(data.content));
-                    });
+                window.addEventListener('message', event => {
+                  const message = event.data;
+                  document.getElementById('content').innerHTML = marked(message.content);
+                });
             </script>
 
             </head>
-            <body id="content">
+            <body>
+              <div id="test"></div>
+              <div id="content"></div>
             </body>
           </html>`;
 }
