@@ -16,6 +16,7 @@
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js"
   },
+  "main": "./out/extension.js",
   "devDependencies": {
     "@types/glob": "^7.1.1",
     "@types/mocha": "^5.2.6",
@@ -27,7 +28,10 @@
     "typescript": "^3.3.1",
     "vscode-test": "^1.0.0-next.0"
   },
-  "main": "./out/extension.js",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "node-fetch": "^2.6.0"
+  },
   "activationEvents": [
     "onCommand:extension.openDoc",
     "onCommand:extension.openDocExternal"
@@ -39,12 +43,8 @@
         "title": "Ionic Documentation"
       },
       {
-        "command": "extension.openDocAlt",
-        "title": "Ionic Documentation"
-      },
-      {
         "command": "extension.openDocExternal",
-        "title": "Ionic Documentation: External"
+        "title": "Ionic Documentation: Website"
       }
     ],
     "menus": {
@@ -56,10 +56,23 @@
           "command": "extension.openDocExternal"
         }
       ]
-    }
-  },
-  "dependencies": {
-    "atob": "^2.1.2",
-    "node-fetch": "^2.6.0"
+    },
+    "configuration": [
+      {
+        "title": "Ionic Documentation Configuration",
+        "properties": {
+          "ionic.documentation.version": {
+            "type": "number",
+            "enum": [
+              3,
+              4
+            ],
+            "default": 4,
+            "description": "Select the version for the ionic documentation",
+            "scope": "window"
+          }
+        }
+      }
+    ]
   }
 }

@@ -1,14 +1,17 @@
 import * as vscode from 'vscode';
-import { CodeElementList } from './code-element-list';
 import { Keys } from './keys';
-import { IonicDocumentation, ElementProps } from './documentation-lists/ionic';
+import { IonicDocumentation } from './documentation-lists/ionic';
+
 const fetch = require('node-fetch');
 const atob = require('atob');
+const githubUrl = 'https://api.github.com/repos/ionic-team/ionic/readme/core/src/components';
 
 export function activate(context: vscode.ExtensionContext) {
 
-  let openDoc = vscode.commands.registerCommand('extension.openDoc', (e) => {
-
+  /**
+   * Open Documentation 
+   */
+  const openDoc = vscode.commands.registerCommand('extension.openDoc', () => {
     const editor = vscode.window.activeTextEditor;
 
     if (editor) {
@@ -18,50 +21,81 @@ export function activate(context: vscode.ExtensionContext) {
 
       if (foundElement) {
 
-        // Open webview Panel Beside
         const documentationPanel = vscode.window.createWebviewPanel('html', `Ionic Documentation: ${highlightedText}`,
           vscode.ViewColumn.Beside, { enableScripts: true });
 
         documentationPanel.webview.html = getWebviewContent();
 
-        fetch(`https://api.github.com/repos/ionic-team/ionic/readme/${foundElement.path}?client_id=${Keys.clientId}&client_secret=${Keys.clientSecret}`)
-          .then((resp: any) => resp.json())
+        fetch(`${githubUrl}/${foundElement.path}?client_id=${Keys.clientId}&client_secret=${Keys.clientSecret}`).then((resp: any) => resp.json())
           .then(function (data: any) {
 
             const content = atob(data.content);
-            // Post content as message to HTML
             documentationPanel.webview.postMessage({ content: content });
 
           }).catch((error: any) => {
-            showError(`Api issue`);
+            showError(error);
           });
 
       } else {
-        // Show error if highlighted test is not found
         showError(`Ionic Documentation Error: Code element ${highlightedText} does not exist`);
       }
     }
   });
 
-  let openDocExternal = vscode.commands.registerCommand('extension.openDocExternal', (e) => {
-    // TODO: Open external documentation
+  /**
+   * Open documentation to website
+   */
+  const openDocExternal = vscode.commands.registerCommand('extension.openDocExternal', () => {
+    const editor = vscode.window.activeTextEditor;
+
+    if (editor) {
+
+      const highlightedText = editor.document.getText(editor.selection);
+      const foundElement = checkCodeElement(highlightedText);
+
+      foundElement
+        ? vscode.env.openExternal(vscode.Uri.parse(`https://ionicframework.com/docs/api/${foundElement.path}`))
+        : showError(`Ionic Documentation Error: Code element ${highlightedText} does not exist`);
+
+    } else {
+      showError(`Error`);
+    }
   });
+
+  /**
+   * Listen for changes to ionic version change
+   */
+  const tron = vscode.workspace.getConfiguration().get('ionic.documentation.version');
+  console.log('tron', tron);
+
+
 
   context.subscriptions.push(openDoc);
   context.subscriptions.push(openDocExternal);
+
 }
 
+/**
+ * Checks that element exists
+ * @param highlightedText The selected text
+ */
 function checkCodeElement(highlightedText: string) {
   return IonicDocumentation.ElementProperties.find((element) => {
     return element.element === highlightedText ? element : null;
   });
 }
 
-function showError(highlightedText: string) {
-  // TODO: open list of all code elements
-  vscode.window.showErrorMessage(`Ionic Documentation Error: Code element ${highlightedText} does not exist`);
+/**
+ * Show error
+ * @param error Error message
+ */
+function showError(error: string) {
+  vscode.window.showErrorMessage(error, { modal: true });
 }
 
+/**
+ * Generate webview
+ */
 function getWebviewContent() {
 
   // TODO: Add Security policy
@@ -83,9 +117,7 @@ function getWebviewContent() {
             </script>
 
             </head>
-            <body>
-              <div id="test"></div>
-              <div id="content"></div>
+            <body id="content">
             </body>
           </html>`;
 }
