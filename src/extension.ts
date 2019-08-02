@@ -1,9 +1,12 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 import { Keys } from './keys';
 import { IonicDocumentation } from './documentation-lists/ionic';
 
 const fetch = require('node-fetch');
 const atob = require('atob');
+const marked = require('marked');
 const githubUrl = 'https://api.github.com/repos/ionic-team/ionic/readme/core/src/components';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -22,14 +25,20 @@ export function activate(context: vscode.ExtensionContext) {
       if (foundElement) {
 
         const documentationPanel = vscode.window.createWebviewPanel('html', `Ionic Documentation: ${highlightedText}`,
-          vscode.ViewColumn.Beside, { enableScripts: true });
+          vscode.ViewColumn.Beside, {
+            enableScripts: true,
+            localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'webview'))]
+          });
 
-        documentationPanel.webview.html = getWebviewContent();
+        const filePath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath, 'src', 'webview', 'readme.html')).with({ scheme: 'vscode-resource' });
+        documentationPanel.webview.html = fs.readFileSync(filePath.fsPath, 'utf8');
 
         fetch(`${githubUrl}/${foundElement.path}?client_id=${Keys.clientId}&client_secret=${Keys.clientSecret}`).then((resp: any) => resp.json())
           .then(function (data: any) {
 
-            const content = atob(data.content);
+            const content = marked(atob(data.content));
+            console.log(content);
+            
             documentationPanel.webview.postMessage({ content: content });
 
           }).catch((error: any) => {
@@ -65,10 +74,8 @@ export function activate(context: vscode.ExtensionContext) {
   /**
    * Listen for changes to ionic version change
    */
-  const tron = vscode.workspace.getConfiguration().get('ionic.documentation.version');
-  console.log('tron', tron);
-
-
+  const versionn = vscode.workspace.getConfiguration().get('ionic.documentation.version');
+  console.log('versionn', versionn);
 
   context.subscriptions.push(openDoc);
   context.subscriptions.push(openDocExternal);
@@ -93,33 +100,5 @@ function showError(error: string) {
   vscode.window.showErrorMessage(error, { modal: true });
 }
 
-/**
- * Generate webview
- */
-function getWebviewContent() {
-
-  // TODO: Add Security policy
-  return `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-              <title>Ionic Documentation</title>
-
-              <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-              <script type="text/javascript">
-                window.addEventListener('message', event => {
-                  const message = event.data;
-                  document.getElementById('content').innerHTML = marked(message.content);
-                });
-            </script>
-
-            </head>
-            <body id="content">
-            </body>
-          </html>`;
-}
 
 export function deactivate() { }
