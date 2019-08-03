@@ -10,4 +10,4 @@ Just right-click on the element that you want to view the documentation for and 
  - Right-click to view ionic documetation on website of hightlighted element
  - Webview title navigation to extenal documentation of selected element
 
- ![example](https://github.com/IsaacSomething/ionic4-documents-vscode/blob/master/assets/example.gif)
+ ![example](https://raw.githubusercontent.com/IsaacSomething/ionic4-documents-vscode/master/assets/example.gif)
