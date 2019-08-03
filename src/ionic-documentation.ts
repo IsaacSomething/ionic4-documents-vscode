@@ -4,6 +4,9 @@ export interface ElementProps {
 }
 export class IonicDocumentation {
 
+  public static readonly IonicGitHubUri = 'https://api.github.com/repos/ionic-team/ionic/readme/core/src/components';
+  public static readonly IonicExternalDocumentationUri = 'https://ionicframework.com/docs/api';
+
   public static readonly ElementProperties: ElementProps[] = [
     {
       path: 'action-sheet-controller',

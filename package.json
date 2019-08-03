@@ -1,13 +1,17 @@
 {
   "name": "ionic-docs",
-  "displayName": "Ionic Docs",
-  "description": "Documentation for ionic",
-  "version": "0.0.1",
+  "displayName": "Ionic Documentation",
+  "description": "Quick access to Ionic 4 documentation loaded inside of Visual Studio Code",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.36.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "ionic",
+    "documentation"
   ],
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -36,7 +40,8 @@
   },
   "activationEvents": [
     "onCommand:extension.openDoc",
-    "onCommand:extension.openDocExternal"
+    "onCommand:extension.openDocExternal",
+    "onCommand:extension.openDocExt"
   ],
   "contributes": {
     "commands": [
@@ -47,34 +52,34 @@
       {
         "command": "extension.openDocExternal",
         "title": "Ionic Documentation: Website"
+      },
+      {
+        "command": "extension.openDocExt",
+        "title": "Open Documentation Website",
+        "icon": {
+          "light": "assets/open-external-light.png",
+          "dark": "assets/open-external-dark.png"
+        }
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "extension.openDoc"
+          "command": "extension.openDoc",
+          "when": "editorHasSelection"
         },
         {
-          "command": "extension.openDocExternal"
+          "command": "extension.openDocExternal",
+          "when": "editorHasSelection"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "extension.openDocExt",
+          "group": "navigation",
+          "when": "resourceFilename =~ /webview/readme.html"
         }
       ]
-    },
-    "configuration": [
-      {
-        "title": "Ionic Documentation Configuration",
-        "properties": {
-          "ionic.documentation.version": {
-            "type": "number",
-            "enum": [
-              3,
-              4
-            ],
-            "default": 4,
-            "description": "Select the version for the ionic documentation",
-            "scope": "window"
-          }
-        }
-      }
-    ]
+    }
   }
 }

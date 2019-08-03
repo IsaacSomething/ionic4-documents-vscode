@@ -5,9 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- TODO: Add Security Policy -->
   <title>Ionic Documentation</title>
-
-  <link rel="stylesheet" src="readme.css">
 
   <script type="text/javascript">
     window.addEventListener('message', event => {
@@ -17,24 +16,68 @@
   </script>
 
   <style>
-    h1:first-child {
-      color: #42a5f5;
+    body {
+      color: var(--vscode-foreground);
     }
 
-    h4,
-    h5,
-    h6 {
-      color: #989898;
+    p:first-of-type {
+      font-size: 16px;
+      color: var(--vscode-foreground);
     }
 
-    table {
-      background-color: #181818;
+    blockquote {
+      margin: 0;
+      padding: 1px 20px;
       border-radius: 5px;
     }
 
-    table thead tr {
-      padding: 10px;
-      border-bottom: 1px solid #2a2d2e;
+    blockquote p {
+      font-size: 14px!important;
+    }
+
+    blockquote a {
+      text-decoration: none;
+    }
+
+    h1 {
+      color: var(--vscode-textLink-activeForeground);
+    }
+
+    pre {
+      background-color: var(--vscode-textCodeBlock-background);
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    pre code {
+      color: var(--vscode-foreground);
+      overflow-wrap: break-word;
+    }
+
+    code {
+      color: var(--vscode-textLink-activeForeground);
+      font-weight: bold;
+      border-radius: 3px;
+    }
+
+    h3 code,
+    p code {
+      font-weight: bold;
+    }
+
+    a {
+      color: var(--vscode-editor-textLink-foreground);
+    }
+
+    table {
+      background-color: var(--vscode-textCodeBlock-background);
+      border-collapse: collapse;
+      border-radius: 5px;
+    }
+
+    table thead tr th {
+      padding: 15px 10px;
+      border-bottom: 3px solid var(--vscode-editor-background);
     }
 
     table thead th {
@@ -42,57 +85,31 @@
       padding: 15px;
     }
 
-    table thead th:first-child {
-      border-top-left-radius: 5px;
-    }
-
-    table thead th:last-child {
-      border-top-right-radius: 5px;
-    }
-
-
-    table code,
-    h3 code,
-    p code {
-      color: #42a5f5;
-    }
-
-    a {
-      text-decoration: none;
-      color: #42a5f5;
-    }
-
     table tbody tr td {
       padding: 10px;
+      border-bottom: 1px solid var(--vscode-editor-background);
+      border-right: 1px solid var(--vscode-editor-background);
     }
 
-    body.vscode-light {
-      color: black;
+    table tbody tr td:last-child {
+      border-right: none;
     }
 
-    body.vscode-light pre {
-      background-color: #2a2d2e;
-      padding: 10px;
+    table tbody tr:last-child {
+      border-bottom: none;
     }
 
-    body.vscode-dark {
-      color: white;
-    }
-
-    body.vscode-dark pre {
-      background-color: #181818;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    body.vscode-high-contrast {
-      color: red;
+    hr {
+      display: none;
     }
   </style>
 
 </head>
 
 <body id="content">
+  <p>
+    <small> Loading Documentation From Github... </small>
+  </p>
 </body>
 
 </html>
