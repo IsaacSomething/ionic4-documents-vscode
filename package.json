@@ -3,11 +3,15 @@
   "displayName": "Ionic Documentation",
   "description": "Quick access to Ionic 4 documentation loaded inside of Visual Studio Code",
   "version": "0.0.4",
-  "icon": "assets/ionic-4-snippets.png",
+  "icon": "assets/ionic-docs-logo.png",
   "publisher": "4tron",
   "license": "MIT",
   "engines": {
     "vscode": "^1.36.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IsaacSomething/ionic4-documents-vscode"
   },
   "categories": [
     "Other"
