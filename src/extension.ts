@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
             });
 
           // Get html file webview/readme.html
-          const filePath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath, 'src', 'webview', 'readme.html')).with({ scheme: 'vscode-resource' });
+          const filePath: vscode.Uri = vscode.Uri.file(path.join(context.extensionPath, 'webview', 'readme.html')).with({ scheme: 'vscode-resource' });
           documentationPanel.webview.html = fs.readFileSync(filePath.fsPath, 'utf8');
 
           // Get github documentation
