@@ -2,7 +2,7 @@
   "name": "ionic-docs",
   "displayName": "Ionic Documentation",
   "description": "Quick access to Ionic 4 documentation loaded inside of Visual Studio Code",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "icon": "assets/ionic-docs-logo.png",
   "publisher": "4tron",
   "license": "MIT",
