@@ -56,9 +56,6 @@ export function activate(context: vscode.ExtensionContext) {
               // Post markdown text to readme.html - window.addEventListener('message', event => {
               documentationPanel.webview.postMessage({ content: content });
 
-              console.log('documentationPanel', documentationPanel);
-
-
             }).catch((error: any) => {
               showError(error);
             });
