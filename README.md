@@ -1,8 +1,8 @@
 # Ionic Documentation In VS code
 
-### This visual studio code extension adds ionic 4 documentation inside the vscode editor as a webview.
+### This visual studio code extension adds ionic 4 documentation inside the vscode editor.
 
-Just right-click on the element that you want to view the documentation for and select *Ionic Documentation* from the command list. This will then open the ionic documentation pulled from github into vscode for quick and easy access.
+Just right-click on the element that you want to view the documentation for and select *Ionic Documentation* from the command list. This will then open the ionic documentation pulled from github into vscode as a markdown preview for quick and easy access.
 
 ### Features
  - Right-click to view ionic documetation in visual studio code

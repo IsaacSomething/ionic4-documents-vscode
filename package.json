@@ -1,8 +1,8 @@
 {
   "name": "ionic-docs",
   "displayName": "Ionic Documentation",
-  "description": "Quick access to Ionic 4 documentation loaded inside of Visual Studio Code",
-  "version": "0.0.7",
+  "description": "Quick access to Ionic 4 documentation inside of Visual Studio Code",
+  "version": "1.0.0",
   "icon": "assets/ionic-docs-logo.png",
   "publisher": "4tron",
   "license": "MIT",
@@ -18,7 +18,8 @@
   ],
   "keywords": [
     "ionic",
-    "documentation"
+    "documentation",
+    "markdown"
   ],
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -42,12 +43,10 @@
   },
   "dependencies": {
     "atob": "^2.1.2",
-    "marked": "^0.7.0",
     "node-fetch": "^2.6.0"
   },
   "activationEvents": [
     "onCommand:extension.openDoc",
-    "onCommand:extension.openDocExternal",
     "onCommand:extension.openDocExt"
   ],
   "contributes": {
@@ -55,10 +54,6 @@
       {
         "command": "extension.openDoc",
         "title": "Ionic Documentation"
-      },
-      {
-        "command": "extension.openDocExternal",
-        "title": "Ionic Documentation: Website"
       },
       {
         "command": "extension.openDocExt",
@@ -73,10 +68,6 @@
       "editor/context": [
         {
           "command": "extension.openDoc",
-          "when": "editorHasSelection"
-        },
-        {
-          "command": "extension.openDocExternal",
           "when": "editorHasSelection"
         }
       ],
