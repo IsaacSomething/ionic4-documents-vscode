@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "atob": "^2.1.2",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.7"
   },
   "activationEvents": [
     "onCommand:extension.openDoc",
